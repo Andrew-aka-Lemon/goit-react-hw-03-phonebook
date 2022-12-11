@@ -19,6 +19,23 @@ class App extends Component {
     filter: '',
   };
 
+  localStorageKey = 'UserContacts';
+
+  componentDidUpdate() {
+    localStorage.setItem(
+      this.localStorageKey,
+      JSON.stringify(this.state.contacts)
+    );
+  }
+
+  componentDidMount() {
+    const storedContacts = JSON.parse(
+      localStorage.getItem(this.localStorageKey)
+    );
+
+    this.setState({ contacts: storedContacts });
+  }
+
   addContactHandler = newContact => {
     if (
       this.state.contacts.filter(contact => {
@@ -56,7 +73,6 @@ class App extends Component {
     const listToRender = contacts.filter(contact => {
       return contact.name.toLowerCase().includes(filerItem);
     });
-
     return (
       <Wrapper>
         <div>
