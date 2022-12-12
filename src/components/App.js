@@ -21,11 +21,13 @@ class App extends Component {
 
   localStorageKey = 'UserContacts';
 
-  componentDidUpdate() {
-    localStorage.setItem(
-      this.localStorageKey,
-      JSON.stringify(this.state.contacts)
-    );
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contact !== this.state.contacts) {
+      localStorage.setItem(
+        this.localStorageKey,
+        JSON.stringify(this.state.contacts)
+      );
+    }
   }
 
   componentDidMount() {
