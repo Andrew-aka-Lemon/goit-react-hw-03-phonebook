@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-// import { nanoid } from 'nanoid';
 
 import AddContactForm from './AddContactForm';
 import ListOfContacts from './ListOfContacts';
@@ -9,19 +8,13 @@ import { Title } from './AddContactForm/AddContactForm.styled';
 
 class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-      { id: 'id-5', name: 'Rolie Pupson', number: '459-12-56' },
-    ],
+    contacts: [],
     filter: '',
   };
 
   localStorageKey = 'UserContacts';
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(_, prevState) {
     if (prevState.contact !== this.state.contacts) {
       localStorage.setItem(
         this.localStorageKey,
@@ -34,6 +27,19 @@ class App extends Component {
     const storedContacts = JSON.parse(
       localStorage.getItem(this.localStorageKey)
     );
+
+    const defaultContacts = [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      { id: 'id-5', name: 'Rolie Pupson', number: '459-12-56' },
+    ];
+
+    if (storedContacts.length === 0) {
+      this.setState({ contacts: defaultContacts });
+      return;
+    }
 
     this.setState({ contacts: storedContacts });
   }
@@ -58,7 +64,7 @@ class App extends Component {
   };
 
   setFilterHandler = f => {
-    this.setState({ filter: f });
+    this.setState({ filter: f.toLowerCase() });
   };
 
   contactDeleter = id => {
@@ -71,10 +77,10 @@ class App extends Component {
 
   render() {
     const { contacts, filter } = this.state;
-    const filerItem = filter.toLowerCase();
     const listToRender = contacts.filter(contact => {
-      return contact.name.toLowerCase().includes(filerItem);
+      return contact.name.toLowerCase().includes(filter);
     });
+
     return (
       <Wrapper>
         <div>
