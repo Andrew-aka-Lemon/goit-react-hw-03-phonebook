@@ -24,10 +24,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const storedContacts = JSON.parse(
-      localStorage.getItem(this.localStorageKey)
-    );
-
     const defaultContacts = [
       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -36,12 +32,16 @@ class App extends Component {
       { id: 'id-5', name: 'Rolie Pupson', number: '459-12-56' },
     ];
 
-    if (storedContacts.length === 0) {
-      this.setState({ contacts: defaultContacts });
+    if (localStorage.getItem(this.localStorageKey) !== null) {
+      const storedContacts = JSON.parse(
+        localStorage.getItem(this.localStorageKey)
+      );
+
+      this.setState({ contacts: storedContacts });
       return;
     }
 
-    this.setState({ contacts: storedContacts });
+    this.setState({ contacts: defaultContacts });
   }
 
   addContactHandler = newContact => {
