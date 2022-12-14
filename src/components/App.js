@@ -38,10 +38,11 @@ class App extends Component {
       );
 
       this.setState({ contacts: storedContacts });
-      return;
-    }
 
-    this.setState({ contacts: defaultContacts });
+      if (storedContacts.length === 0) {
+        this.setState({ contacts: defaultContacts });
+      }
+    }
   }
 
   addContactHandler = newContact => {
