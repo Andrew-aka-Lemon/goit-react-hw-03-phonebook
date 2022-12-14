@@ -42,6 +42,8 @@ class App extends Component {
       if (storedContacts.length === 0) {
         this.setState({ contacts: defaultContacts });
       }
+    } else {
+      this.setState({ contacts: defaultContacts });
     }
   }
 
